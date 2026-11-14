@@ -52,21 +52,25 @@ O **CRUD** está em `produtos.py` e `clientes.py` (comandos `INSERT`, `SELECT`, 
 ## Estrutura do projeto
 
 ```
-main.py        menu principal
-db.py          conexão com o PostgreSQL (autocommit ligado)
+main.py                  menu principal
+db.py                    conexão com o PostgreSQL (autocommit ligado)
 config_local.example.py  modelo de configuração (copiar para config_local.py)
-utils.py       leitura e validação das entradas
-produtos.py    CRUD de produtos
-clientes.py    CRUD de clientes
-vendas.py      chamada da Procedure e das Functions escalares
-relatorios.py  Function de tabela e log do Trigger
-script.sql     criação do banco: tabelas, dados de teste, functions, procedure e trigger
+utils.py                 leitura e validação das entradas
+produtos.py              CRUD de produtos
+clientes.py              CRUD de clientes
+vendas.py                chamada da Procedure e das Functions escalares
+relatorios.py            Function de tabela e log do Trigger
+script.sql               criação do banco: tabelas, dados de teste, functions, procedure e trigger
+requirements.txt         dependência do projeto (psycopg2-binary)
+docs/                    diagramas (DER e casos de uso) e roteiro da apresentação
+testes/                  evidências (prints) dos testes, organizadas por recurso
 ```
 
 ## Testes
 
 As evidências dos testes (prints da execução) estão na pasta [`testes/`](testes/),
 organizadas por recurso: CRUD, Procedure (COMMIT e ROLLBACK), Function, Trigger e integridade.
+O arquivo [`testes/README.md`](testes/README.md) explica o que cada pasta comprova.
 
 ## Como executar
 

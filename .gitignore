@@ -8,3 +8,4 @@ config_local.py
 .idea/
 .DS_Store
 *.log
+ROTEIRO_APRESENTACAO.md
