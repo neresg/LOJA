@@ -60,8 +60,8 @@ produtos.py              CRUD de produtos
 clientes.py              CRUD de clientes
 vendas.py                chamada da Procedure e das Functions escalares
 relatorios.py            Function de tabela e log do Trigger
-script.sql               criação do banco: tabelas, dados de teste, functions, procedure e trigger
 requirements.txt         dependência do projeto (psycopg2-binary)
+DB/script.sql            criação do banco: tabelas, dados de teste, functions, procedure e trigger
 docs/                    diagramas (DER e casos de uso) e roteiro da apresentação
 testes/                  evidências (prints) dos testes, organizadas por recurso
 ```
