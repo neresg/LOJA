@@ -67,27 +67,27 @@ def tela_nova_venda(conn):
     clientes.mostrar_tabela(clientes.listar(conn))
     cliente_id = ler_inteiro("\nId do cliente (0 para cancelar): ", minimo=0)
     if cliente_id == 0:
-        print("Venda cancelada.")
+        print("\n=> Venda cancelada!!")
         return
     cliente = clientes.buscar(conn, cliente_id)
     if cliente is None:
-        print("Cliente não encontrado.")
+        print("\n=> Cliente não encontrado.")
         return
-    print(f"Cliente: {cliente[1]}")
+    print(f"\n=> Cliente: {cliente[1]}")
 
     # 2) Montar o carrinho
     carrinho = {}  # produto_id -> {"nome", "preco", "qtd"}
     produtos.mostrar_tabela(produtos.listar(conn))
 
     while True:
-        print("\nAdicionar item (digite 0 no id do produto para finalizar)")
+        print("\nAdicionar item (digite 0 no id do produto para finalizar)\n")
         produto_id = ler_inteiro("Id do produto: ", minimo=0)
         if produto_id == 0:
             break
 
         produto = produtos.buscar(conn, produto_id)
         if produto is None:
-            print("Produto não encontrado.")
+            print("\n=> Produto não encontrado.")
             continue
 
         quantidade = ler_inteiro("Quantidade: ", minimo=1)
@@ -110,13 +110,13 @@ def tela_nova_venda(conn):
         mostrar_carrinho(carrinho)
 
     if not carrinho:
-        print("Carrinho vazio. Venda cancelada.")
+        print("\n=> [Carrinho vazio] => VENDA CANCELADA!")
         return
 
     # 3) Confirmar e chamar a PROCEDURE
     confirma = input("\nConfirmar a venda? (s/n): ").strip().lower()
     if confirma != "s":
-        print("Venda cancelada.")
+        print("\n=> Venda cancelada.")
         return
 
     ids = list(carrinho.keys())
@@ -126,10 +126,10 @@ def tela_nova_venda(conn):
     # 4) Mostrar o resultado
     print()
     if venda_id is not None:
-        print(f"[OK] {mensagem}")
+        print(f"[OK] {mensagem}\n")
         print(f"Total registrado pelo banco: R$ {total_venda(conn, venda_id):.2f}")
     else:
-        print(f"[FALHOU] {mensagem}")
+        print(f"[FALHOU] {mensagem}\n")
         print("Nenhuma alteração foi mantida no banco (ROLLBACK).")
 
 

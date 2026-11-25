@@ -25,7 +25,7 @@ def ler_inteiro(msg, minimo=None, padrao=None):
             print("Digite um número inteiro.")
             continue
         if minimo is not None and valor < minimo:
-            print(f"O valor deve ser maior ou igual a {minimo}.")
+            print(f"\n=> O valor deve ser maior ou igual a {minimo}.")
             continue
         return valor
 
@@ -42,7 +42,7 @@ def ler_decimal(msg, padrao=None):
             print("Digite um valor válido. Exemplo: 12.50")
             continue
         if valor <= 0:
-            print("O valor deve ser maior que zero.")
+            print("\n=> O valor deve ser maior que zero.\n")
             continue
         return valor
 
@@ -61,4 +61,4 @@ def ler_cpf(msg, padrao=None):
 
 
 def pausar():
-    input("\nPressione Enter para continuar...")
+    input("\nPressione 'Enter' para continuar...")

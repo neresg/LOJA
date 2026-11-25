@@ -69,51 +69,51 @@ def mostrar_tabela(produtos):
 
 
 def tela_cadastrar(conn):
-    print("\n--- Cadastrar produto ---")
+    print("\n--- Cadastrar produto ---\n")
     nome = ler_texto("Nome: ")
     preco = ler_decimal("Preço: ")
     estoque = ler_inteiro("Estoque inicial: ", minimo=0)
     try:
         novo_id = inserir(conn, nome, preco, estoque)
-        print(f"Produto cadastrado com o id {novo_id}.")
+        print(f"\n-> Produto cadastrado com o id {novo_id}.")
     except errors.CheckViolation:
         print("Erro: o banco recusou os dados (preço deve ser > 0 e estoque >= 0).")
 
 
 def tela_atualizar(conn):
-    print("\n--- Atualizar produto ---")
+    print("\n--- Atualizar produto ---\n")
     produto_id = ler_inteiro("Id do produto: ", minimo=1)
     produto = buscar(conn, produto_id)
     if produto is None:
-        print("Produto não encontrado.")
+        print("\n=> Produto não encontrado.")
         return
 
-    print("(Pressione Enter para manter o valor atual)")
+    print("\n(Pressione Enter para manter o valor atual)\n")
     nome = ler_texto(f"Nome [{produto[1]}]: ", padrao=produto[1])
     preco = ler_decimal(f"Preço [{produto[2]}]: ", padrao=produto[2])
     estoque = ler_inteiro(f"Estoque [{produto[3]}]: ", minimo=0, padrao=produto[3])
     try:
         atualizar(conn, produto_id, nome, preco, estoque)
-        print("Produto atualizado.")
+        print("\n=> Produto atualizado.")
     except errors.CheckViolation:
         print("Erro: o banco recusou os dados (preço deve ser > 0 e estoque >= 0).")
 
 
 def tela_excluir(conn):
-    print("\n--- Excluir produto ---")
+    print("\n--- Excluir produto ---\n")
     produto_id = ler_inteiro("Id do produto: ", minimo=1)
     produto = buscar(conn, produto_id)
     if produto is None:
-        print("Produto não encontrado.")
+        print("\n=> Produto não encontrado.")
         return
 
     confirma = input(f"Excluir '{produto[1]}'? (s/n): ").strip().lower()
     if confirma != "s":
-        print("Operação cancelada.")
+        print("\n=> Operação cancelada!")
         return
     try:
         excluir(conn, produto_id)
-        print("Produto excluído.")
+        print("\n=> Produto excluído.")
     except errors.ForeignKeyViolation:
         print(
             "Não é possível excluir: este produto já possui vendas "
@@ -123,13 +123,13 @@ def tela_excluir(conn):
 
 def menu_produtos(conn):
     while True:
-        print("\n===== PRODUTOS =====")
-        print("1 - Listar")
-        print("2 - Cadastrar")
-        print("3 - Atualizar")
-        print("4 - Excluir")
-        print("0 - Voltar")
-        opcao = input("Escolha: ").strip()
+        print("\n===== PRODUTOS =====\n")
+        print("[1] - Listar")
+        print("[2] - Cadastrar")
+        print("[3] - Atualizar")
+        print("[4] - Excluir")
+        print("[0] - Voltar")
+        opcao = input("\nEscolha: ").strip()
 
         if opcao == "1":
             mostrar_tabela(listar(conn))
@@ -146,4 +146,4 @@ def menu_produtos(conn):
         elif opcao == "0":
             return
         else:
-            print("Opção inválida.")
+            print("\n=> [OPÇÃO INVÁLIDA!]")

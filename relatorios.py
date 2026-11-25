@@ -56,22 +56,22 @@ def ultimos_logs(conn, limite=20):
 
 
 def tela_historico(conn):
-    print("\n--- Histórico de compras do cliente ---")
+    print("\n--- Histórico de compras do cliente ---\n")
     clientes.mostrar_tabela(clientes.listar(conn))
     cliente_id = ler_inteiro("\nId do cliente (0 para voltar): ", minimo=0)
     if cliente_id == 0:
         return
     cliente = clientes.buscar(conn, cliente_id)
     if cliente is None:
-        print("Cliente não encontrado.")
+        print("\n=> Cliente não encontrado.")
         return
 
     vendas = historico_cliente(conn, cliente_id)
     if not vendas:
-        print(f"{cliente[1]} ainda não tem vendas.")
+        print(f"\n=> [{cliente[1]}] ainda não têm vendas.")
         return
 
-    print(f"\nVendas de {cliente[1]}:")
+    print(f"\n=> Vendas de [{cliente[1]}]:\n")
     print(f"{'VENDA':<8}{'DATA':<20}{'TOTAL (R$)':>12}  {'STATUS':<12}")
     print("-" * 54)
     for venda_id, data, total, status in vendas:
@@ -84,10 +84,10 @@ def tela_historico(conn):
         if venda_id == 0:
             return
         if venda_id not in ids_validos:
-            print("Essa venda não pertence a este cliente.")
+            print("\n=> Essa venda não pertence a este cliente.")
             continue
         itens = itens_da_venda(conn, venda_id)
-        print(f"\nItens da venda {venda_id}:")
+        print(f"\n=> Itens da venda [{venda_id}]:\n")
         print(f"{'PRODUTO':<28}{'QTD':>5}{'UNIT. (R$)':>13}{'SUBTOTAL':>12}")
         print("-" * 58)
         for nome, qtd, unit, subtotal in itens:
@@ -95,10 +95,10 @@ def tela_historico(conn):
 
 
 def tela_log_estoque(conn):
-    print("\n--- Log de estoque (gerado pelo Trigger) ---")
+    print("\n--- Log de estoque (gerado pelo Trigger) ---\n")
     logs = ultimos_logs(conn)
     if not logs:
-        print("Nenhum registro no log ainda.")
+        print("\n=> Nenhum registro no log ainda.")
         return
     print(f"{'ID':<6}{'PRODUTO':<26}{'ANTES':>7}{'DEPOIS':>8}{'VARIAÇÃO':>10}  {'DATA':<20}")
     print("-" * 79)
@@ -111,11 +111,11 @@ def tela_log_estoque(conn):
 
 def menu_relatorios(conn):
     while True:
-        print("\n===== RELATÓRIOS =====")
-        print("1 - Histórico de compras de um cliente")
-        print("2 - Log de estoque (Trigger)")
-        print("0 - Voltar")
-        opcao = input("Escolha: ").strip()
+        print("\n===== RELATÓRIOS =====\n")
+        print("[1] - Histórico de compras de um cliente")
+        print("[2] - Log de estoque (Trigger)")
+        print("[0] - Voltar")
+        opcao = input("\nEscolha: ").strip()
 
         if opcao == "1":
             tela_historico(conn)
@@ -126,4 +126,4 @@ def menu_relatorios(conn):
         elif opcao == "0":
             return
         else:
-            print("Opção inválida.")
+            print("\n=> [OPÇÃO INVÁLIDA!]")

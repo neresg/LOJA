@@ -17,16 +17,16 @@ def main():
         print("\nConfira o usuário/senha em db.py e se o PostgreSQL está rodando.")
         return
 
-    print("Conectado ao banco com sucesso!")
+    print("\n[Conectado ao banco com sucesso!]")
     try:
         while True:
-            print("\n===== SISTEMA DE VENDAS =====")
-            print("1 - Produtos")
-            print("2 - Clientes")
-            print("3 - Nova venda")
-            print("4 - Relatórios")
-            print("0 - Sair")
-            opcao = input("Escolha: ").strip()
+            print("\n===== SISTEMA DE VENDAS =====\n")
+            print("[1] - Produtos")
+            print("[2] - Clientes")
+            print("[3] - Nova venda")
+            print("[4] - Relatórios")
+            print("[0] - Sair")
+            opcao = input("\nEscolha: ").strip()
 
             if opcao == "1":
                 produtos.menu_produtos(conn)
@@ -37,10 +37,10 @@ def main():
             elif opcao == "4":
                 relatorios.menu_relatorios(conn)
             elif opcao == "0":
-                print("Até logo!")
+                print("\nAté logo..")
                 break
             else:
-                print("Opção inválida.")
+                print("\n=> [OPÇÃO INVÁLIDA!]")
     finally:
         conn.close()
 

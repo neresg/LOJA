@@ -63,7 +63,7 @@ def excluir(conn, cliente_id):
 
 def mostrar_tabela(clientes):
     if not clientes:
-        print("Nenhum cliente cadastrado.")
+        print("\n=> Nenhum cliente cadastrado.")
         return
     print(f"\n{'ID':<5}{'NOME':<25}{'CPF':<16}{'EMAIL':<28}{'TELEFONE':<16}")
     print("-" * 90)
@@ -72,66 +72,66 @@ def mostrar_tabela(clientes):
 
 
 def tela_cadastrar(conn):
-    print("\n--- Cadastrar cliente ---")
+    print("\n--- Cadastrar cliente ---\n")
     nome = ler_texto("Nome: ")
     cpf = ler_cpf("CPF: ")
     email = ler_texto("Email (opcional): ", padrao="")
     telefone = ler_texto("Telefone (opcional): ", padrao="")
     try:
         novo_id = inserir(conn, nome, cpf, email or None, telefone or None)
-        print(f"Cliente cadastrado com o id {novo_id}.")
+        print(f"\n=> Cliente cadastrado com o id {novo_id}.")
     except errors.UniqueViolation:
-        print("Erro: já existe um cliente cadastrado com esse CPF.")
+        print("\n=> Erro: já existe um cliente cadastrado com esse CPF.")
 
 
 def tela_atualizar(conn):
-    print("\n--- Atualizar cliente ---")
+    print("\n--- Atualizar cliente ---\n")
     cliente_id = ler_inteiro("Id do cliente: ", minimo=1)
     cliente = buscar(conn, cliente_id)
     if cliente is None:
-        print("Cliente não encontrado.")
+        print("\n=> Cliente não encontrado.")
         return
 
-    print("(Pressione Enter para manter o valor atual)")
+    print("\n(Pressione Enter para manter o valor atual)\n")
     nome = ler_texto(f"Nome [{cliente[1]}]: ", padrao=cliente[1])
     cpf = ler_cpf(f"CPF [{cliente[2]}]: ", padrao=cliente[2])
     email = ler_texto(f"Email [{cliente[3] or '-'}]: ", padrao=cliente[3] or "")
     telefone = ler_texto(f"Telefone [{cliente[4] or '-'}]: ", padrao=cliente[4] or "")
     try:
         atualizar(conn, cliente_id, nome, cpf, email or None, telefone or None)
-        print("Cliente atualizado.")
+        print("\n=> Cliente atualizado.")
     except errors.UniqueViolation:
-        print("Erro: já existe outro cliente com esse CPF.")
+        print("\n=> Erro: já existe outro cliente com esse CPF.")
 
 
 def tela_excluir(conn):
-    print("\n--- Excluir cliente ---")
+    print("\n--- Excluir cliente ---\n")
     cliente_id = ler_inteiro("Id do cliente: ", minimo=1)
     cliente = buscar(conn, cliente_id)
     if cliente is None:
-        print("Cliente não encontrado.")
+        print("\n=> Cliente não encontrado.")
         return
 
     confirma = input(f"Excluir '{cliente[1]}'? (s/n): ").strip().lower()
     if confirma != "s":
-        print("Operação cancelada.")
+        print("\n=> Operação cancelada.")
         return
     try:
         excluir(conn, cliente_id)
-        print("Cliente excluído.")
+        print("\n=> Cliente excluído.")
     except errors.ForeignKeyViolation:
-        print("Não é possível excluir: este cliente já possui vendas registradas.")
+        print("\n=> Não é possível excluir: este cliente já possui vendas registradas.")
 
 
 def menu_clientes(conn):
     while True:
-        print("\n===== CLIENTES =====")
-        print("1 - Listar")
-        print("2 - Cadastrar")
-        print("3 - Atualizar")
-        print("4 - Excluir")
-        print("0 - Voltar")
-        opcao = input("Escolha: ").strip()
+        print("\n===== CLIENTES =====\n")
+        print("[1] - Listar")
+        print("[2] - Cadastrar")
+        print("[3] - Atualizar")
+        print("[4] - Excluir")
+        print("[0] - Voltar")
+        opcao = input("\nEscolha: ").strip()
 
         if opcao == "1":
             mostrar_tabela(listar(conn))
@@ -148,4 +148,4 @@ def menu_clientes(conn):
         elif opcao == "0":
             return
         else:
-            print("Opção inválida.")
+            print("\n=> [OPÇÃO INVÁLIDA!]")
