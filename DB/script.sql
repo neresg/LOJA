@@ -131,21 +131,23 @@ $$;
 -- =====================================================
 -- 4. PROCEDURE (com controle de transação)
 -- =====================================================
+
 -- Realiza uma venda completa:
 --   1) valida os dados e o cliente
 --   2) cria a venda
 --   3) para cada item: valida produto e estoque (usando fn_estoque_disponivel),
 --      insere o item e dá baixa no estoque
 --   4) calcula o total (usando fn_total_venda) e conclui a venda
+
 -- Se qualquer validação falhar -> ROLLBACK (desfaz TUDO)
--- Se tudo der certo           -> COMMIT
---
--- Parâmetros de entrada: cliente, lista de produtos e lista de quantidades
+-- Se tudo der certo            -> COMMIT
+
+-- Parâmetros de entrada(p): cliente, lista de produtos e lista de quantidades
 -- Parâmetros INOUT (saída): id da venda criada e mensagem do resultado
 
 CREATE OR REPLACE PROCEDURE sp_realizar_venda(
     p_cliente_id  INTEGER,
-    p_produtos    INTEGER[],
+    p_produtos    INTEGER[], 
     p_quantidades INTEGER[],
     INOUT p_venda_id  INTEGER DEFAULT NULL,
     INOUT p_mensagem  TEXT    DEFAULT NULL
@@ -159,7 +161,7 @@ BEGIN
     -- Validação das listas
     IF p_produtos IS NULL OR p_quantidades IS NULL
        OR array_length(p_produtos, 1) IS NULL
-       OR array_length(p_produtos, 1) <> array_length(p_quantidades, 1) THEN
+       OR array_length(p_produtos, 1) <> array_length(p_quantidades, 1) THEN -- ex: 2 prod e 1 qtd
         p_mensagem := 'ERRO: lista de produtos/quantidades inválida.';
         ROLLBACK;
         RETURN;
@@ -189,7 +191,7 @@ BEGIN
             RETURN;
         END IF;
 
-        SELECT preco INTO v_preco
+        SELECT preco INTO v_preco   -- busca o preço e guarda na variável
         FROM produto
         WHERE id = p_produtos[i];
 
@@ -214,11 +216,11 @@ BEGIN
             RETURN;
         END IF;
 
-        INSERT INTO item_venda (venda_id, produto_id, quantidade, preco_unitario)
+        INSERT INTO item_venda (venda_id, produto_id, quantidade, preco_unitario) -- grava na nota
         VALUES (p_venda_id, p_produtos[i], p_quantidades[i], v_preco);
 
         -- Baixa no estoque
-        UPDATE produto
+        UPDATE produto          -- dispara o trigger de log_estoque
         SET estoque = estoque - p_quantidades[i]
         WHERE id = p_produtos[i];
     END LOOP;
